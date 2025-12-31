@@ -1,0 +1,137 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Zoravur Singh - Resume
+% 01/16/2020
+%
+% Reference:
+% Hieu Sy Do
+
+% \documentclass[a4paper]{hieudo-build}
+
+\documentclass[letterpaper,11pt]{hieudo-build}
+
+\begin{document}
+
+%% HEADER %%
+\noindent
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+  \begin{minipage}[t]{0.6\textwidth}
+    \vspace{0pt} % force top alignment
+    {\fontspec[Path = fonts/NiveauGrotesk/]{Lato-Bold.ttf}\fontsize{40pt}{40pt}\selectfont \textcolor{myblue}{Zoravur Singh}}  \end{minipage} &
+  \begin{minipage}[t]{0.35\textwidth}
+    \vspace{0pt}
+    \raggedleft
+    \urlstyle{same}%
+    \faLink\href{https://zoravur.com}{ zoravur.com }\\
+    \faGithub\href{https://github.com/zoravur}{ github.com/zoravur }\\
+    \faEnvelope\href{mailto:zoravur.s@gmail.com}{ zoravur.s@gmail.com }
+  \end{minipage}
+\end{tabular*}
+
+  \fontspec[Path = fonts/NiveauGrotesk/]{Lato-Regular.ttf}\fontsize{11pt}{13pt}\selectfont\bfseries\normalfont
+
+
+\raggedright
+
+% \section{Summary}
+% {\normalfont Software engineer with 2+ years of work experience encompassing full stack development, data engineering, and machine learning, with a strong interest in building correct, scalable, and efficient systems.}
+
+
+%% EDUCATION %%
+\section{Education}
+
+\runsubsection{Honours Bachelor of Computer Science} \hfill \mylocation{University of Waterloo} \\
+\descript{Major in Computer Science with Co-op, Minor in Pure Mathematics} \hfill 2018 — 2023 \\
+
+%% COURSEWORK (inlined from education.tex) %%
+% \runsubsection{Relevant Coursework} \\
+% \descript{Statistics (Advanced), Linear Algebra 2 (Advanced), Object Oriented Programming (Enriched), Multivariable Calculus, Data Structures and Data Management} \\
+% \vspace{1em}
+
+% \runsubsection{Outside Coursework} \\
+% \descript{Machine Learning (Coursera)} \\
+% \descript{Intro to Deep Learning with PyTorch (Udacity)}
+
+
+%% SKILLS %%
+\section{Skills}
+
+{
+\skill{Languages}{Python, C, C++, Go, TypeScript}
+
+\skill{Frameworks \& Libraries}{React, Redux, NumPy, Pandas, JAX, Playwright, FastAPI}
+
+\skill{Infrastructure \& Tools}{PostgreSQL, sqlite, Docker, AWS, Snowflake}
+
+\skill{Systems \& Concepts}{Wasm, CMake, web scraping, machine learning}
+
+% \skill{Exploring}{libuv, gRPC, distributed systems, Terraform, Redis, Kafka, Kubernetes, Rust, Zig}
+}
+
+%% EXPERIENCE %%
+\section{Experience}
+
+\runsubsection{Solutions That Matter} \hfill \mylocation{Toronto, ON} \\
+\descript{Software Engineer} \hfill Dec 2023 — Jun 2025 \\
+\begin{tightemize}
+  \item Designed and built an order processing system end-to-end, automating \$1M+/year in orders and eliminating manual data entry errors.
+  \item Developed a Python ETL service for automatic order reconciliation, reducing a 12+ hour manual task to minutes.
+  \item Shipped an internal order tracking system in 3 days using Google Sheets, replacing back-and-forth of status inquiries.
+\end{tightemize}
+
+\runsubsection{DealMaker} \hfill \mylocation{Toronto, ON} \\
+\descript{Data Engineering Intern} \hfill May 2023 — Sep 2023 \\
+\begin{tightemize}
+  \item Built analytics dashboards in Metabase using SQL to track sales performance, ad spend ROI, and customer metrics.
+  \item Improved ETL pipeline performance 5x via batch API requests and extended it to support new data sources.
+  \item Prototyped a machine learning model to forecast capital raise outcomes using historical transaction data.
+\end{tightemize}
+
+\runsubsection{Royal Bank of Canada} \hfill \mylocation{Toronto, ON} \\
+\descript{AI Engineering Intern} \hfill Sep 2021 — Apr 2022 \\
+\begin{tightemize}
+  \item Contributed to Aiden, an RL-based trading algorithm handling \$100M+ daily, by architecting new trading signals.
+  \item Developed a C++ market exchange simulation environment, reducing training cycles from 3 days to 14 hours.
+  \item Built MLP classifiers to predict momentum vs. reversion market conditions, improving ETF trading performance.
+\end{tightemize}
+
+\runsubsection{Arcturus Networks} \hfill \mylocation{Toronto, ON} \\
+\descript{Software Engineering Intern} \hfill May 2020 — Aug 2020 \\
+\begin{tightemize}
+  \item Built a video surveillance application using React, Redux, redux-saga, and ZeroMQ for real-time streaming.
+  \item Implemented live alerts, notifications, and pipeline parameter configuration features.
+  \item Reduced Docker build times from 7 minutes to 20 seconds by optimizing Dockerfiles and CMake cache usage.
+\end{tightemize}
+
+\runsubsection{ROSS Intelligence, Inc.} \hfill \mylocation{Toronto, ON} \\
+\descript{Machine Intelligence Engineering Intern} \hfill May 2019 — Aug 2019 \\
+\begin{tightemize}
+  \item Extended backend microservices and refactored auth logic to allow users to use the app without creating an account, driving customer acquisition.
+  \item Built a subscription settings page in React with functionality to modify, view, and cancel subscriptions.
+  \item Migrated ~1000 lines of the frontend codebase from JavaScript to TypeScript.
+\end{tightemize}
+
+
+%% PROJECTS %%
+\section{Projects}
+
+\newcommand{\smallsep}[0]{\vspace{0.2em}}
+
+    \runsubsection{Spock~~|} \descript{A spoken programming language
+    \href{https://github.com/zoravur/spock}{\faGithub}
+    \href{https://zoravur.com/spock-a-spoken}{zoravur.com/spock-a-spoken}}
+    \begin{tightemize}
+        \item Designed and implemented a tree-walk interpreter for a programming language using English words without punctuation, and integrated OpenAI Whisper (speech-to-text) to enable voice-dictated programming.
+    \end{tightemize}
+
+    \runsubsection{Taan Generator~~|} \descript{Indian classical music generator
+    \href{https://github.com/zoravur/taangenerator}{\faGithub}
+    \href{https://www.youtube.com/watch?v=FXV69hGpr4Q}{(demo)}}
+    \begin{tightemize}
+        \item Trained a transformer to generate taans (melodic runs) in the Indian classical raga Yaman.
+    \end{tightemize}
+
+
+% \input{parts/awards.tex}
+
+
+\end{document}
