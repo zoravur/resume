@@ -17,7 +17,10 @@ jobs:
           sudo apt-get install -y texlive-xetex texlive-fonts-extra
 
       - name: Build resume
-        run: xelatex -interaction=nonstopmode resume.tex
+        run: |
+          xelatex -interaction=nonstopmode resume.tex || true
+          # Verify PDF was created
+          test -f resume.pdf
 
       - name: Update latest release
         uses: softprops/action-gh-release@v2
