@@ -1,0 +1,31 @@
+name: Build and Release Resume
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XeLaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex texlive-fonts-extra
+
+      - name: Build resume
+        run: xelatex -interaction=nonstopmode resume.tex
+
+      - name: Update latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Resume
+          files: resume.pdf
+          body: |
+            Auto-generated from commit ${{ github.sha }}
+
+            Built on ${{ github.event.head_commit.timestamp }}
