@@ -14,22 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install XeLaTeX
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-xetex texlive-fonts-extra
-
       - name: Build resume
-        run: |
-          xelatex -interaction=nonstopmode resume.tex || true
-          # Verify PDF was created
-          test -f resume.pdf
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume.tex
+          latexmk_use_xelatex: true
 
-      - name: Update latest release
+      - name: Generate version tag
+        id: version
+        run: echo "tag=v$(date +'%Y.%m.%d')-$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
-          name: Latest Resume
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Resume ${{ steps.version.outputs.tag }}
           files: resume.pdf
           body: |
             Auto-generated from commit ${{ github.sha }}
