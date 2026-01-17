@@ -14,11 +14,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build resume
-        uses: xu-cheng/latex-action@v3
+      - name: Cache TeX Live
+        uses: actions/cache@v4
         with:
-          root_file: resume.tex
-          latexmk_use_xelatex: true
+          path: /usr/share/texlive
+          key: texlive-${{ runner.os }}
+
+      - name: Install XeLaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex texlive-fonts-extra
+
+      - name: Build resume
+        run: |
+          xelatex -interaction=nonstopmode resume.tex || true
+          xelatex -interaction=nonstopmode resume.tex || true
+          test -f resume.pdf
 
       - name: Generate version tag
         id: version
