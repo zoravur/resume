@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -30,12 +30,6 @@ jobs:
       - name: Build resume
         run: latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error resume.tex
 
-      - name: Upload resume artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: resume-pdf
-          path: resume.pdf
-
       - name: Prepare Pages site
         if: github.event_name != 'pull_request'
         run: |
@@ -44,48 +38,30 @@ jobs:
           cp index.html public/index.html
           touch public/.nojekyll
 
-      - name: Configure Pages
+      - name: Deploy Pages branch
         if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-  deploy:
-    if: github.event_name != 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  release:
-    if: github.event_name == 'push'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Download resume artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: resume-pdf
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf pages
+          git init pages
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git checkout --orphan gh-pages
+          cp -R ../public/. .
+          git add --all
+          git commit -m "Deploy resume ${GITHUB_SHA}"
+          git push --force origin gh-pages
 
       - name: Generate version tag
+        if: github.event_name == 'push'
         id: version
         run: echo "tag=v$(date +'%Y.%m.%d')-$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
 
       - name: Create release
+        if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
