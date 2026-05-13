@@ -13,6 +13,7 @@
 *.nav
 *.snm
 *.vrb
+*.xdv
 
 # PDF output (keep source, rebuild as needed)
 *.pdf

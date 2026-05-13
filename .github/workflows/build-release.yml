@@ -1,12 +1,14 @@
-name: Build and Release Resume
+name: Build, Release, and Deploy Resume
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -23,13 +25,61 @@ jobs:
       - name: Install XeLaTeX
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-xetex texlive-fonts-extra
+          sudo apt-get install -y latexmk texlive-xetex texlive-latex-extra texlive-fonts-extra texlive-lang-english
 
       - name: Build resume
+        run: latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error resume.tex
+
+      - name: Upload resume artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdf
+          path: resume.pdf
+
+      - name: Prepare Pages site
+        if: github.event_name != 'pull_request'
         run: |
-          xelatex -interaction=nonstopmode resume.tex || true
-          xelatex -interaction=nonstopmode resume.tex || true
-          test -f resume.pdf
+          mkdir -p public
+          cp resume.pdf public/resume.pdf
+          cp index.html public/index.html
+          touch public/.nojekyll
+
+      - name: Configure Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  release:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download resume artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: resume-pdf
 
       - name: Generate version tag
         id: version

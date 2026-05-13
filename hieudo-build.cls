@@ -65,7 +65,7 @@
 \color{headings}
 \fontspec[Path = fonts/NiveauGrotesk/]{Lato-Bold.ttf}
 \fontsize{18pt}{24pt}
-\selectfont\uppercase}{}{}{}
+\selectfont}{}{0pt}{\MakeUppercase}
 
 
 \newcommand{\subsectionstyle}{
