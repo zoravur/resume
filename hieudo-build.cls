@@ -97,8 +97,7 @@
 % Location, but inline
 \newcommand{\skill}[2]{
   \setlength{\baselineskip}{14pt}
-  {\subsectionstyle\fontsize{10.3pt}{13pt}\selectfont #1}
-  \:|\:
+  {\subsectionstyle\fontsize{10.3pt}{13pt}\selectfont #1 \:|\:}
   {\sourcesanspro\fontsize{11pt}{13pt}\selectfont #2}
 }
 
